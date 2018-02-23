@@ -8,90 +8,103 @@ const knex = require("./knexfile");
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get("/people", (request, response) => {
+app.get("/people", (request, response, next) => {
     queries.listPeople().then(people => {
         response.json({people});
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.get("/events", (request, response) => {
+app.get("/events", (request, response, next) => {
     queries.listEvents().then(events => {
         response.json({events});
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.get("/app-data", (request, response) => {
+app.get("/app-data", (request, response, next) => {
     queries.listAppData().then(appData => {
         response.json({appData});
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.get("/people/:id", (request, response) => {
+app.get("/people/:id", (request, response, next) => {
     queries.readPerson(request.params.id).then(person => {
         person
             ? response.json({person})
             : response.sendStatus(404);
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.get("/events/:id", (request, response) => {
+app.get("/events/:id", (request, response, next) => {
     queries.readEvent(request.params.id).then(event => {
         event
             ? response.json({event})
             : response.sendStatus(404);
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.post("/events", (request, response) => {
+app.post("/events", (request, response, next) => {
     queries.createEvent(request.body).then(event => {
         response.status(201).json({event: event});
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.post("/people", (request, response) => {
+app.post("/people", (request, response, next) => {
     queries.createPerson(request.body).then(person => {
         response.status(201).json({person: person});
-    }).catch(console.error);
+				response.send("Your friend was added!");
+    }).catch(next);
 });
 
-app.post("/app-data", (request, response) => {
+app.post("/app-data", (request, response, next) => {
     queries.createAppData(request.body).then(appData => {
         response.status(201).json({appData: appData});
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.delete("/events/:id", (request, response) => {
+app.delete("/events/:id", (request, response, next) => {
     queries.deleteEvent(request.params.id).then(() => {
         response.sendStatus(204);
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.delete("/people/:id", (request, response) => {
+app.delete("/people/:id", (request, response, next) => {
     queries.deletePerson(request.params.id).then(() => {
         response.sendStatus(204);
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.delete("/app-data/:id", (request, response) => {
+app.delete("/app-data/:id", (request, response, next) => {
     queries.deleteAppData(request.params.id).then(() => {
         response.sendStatus(204);
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.put("/events/:id", (request, response) => {
+app.put("/events/:id", (request, response, next) => {
     queries.updateEvent(request.params.id, request.body).then(event => {
         response.json(event);
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.put("/people/:id", (request, response) => {
+app.put("/people/:id", (request, response, next) => {
     queries.updatePerson(request.params.id, request.body).then(person => {
         response.json(person);
-    }).catch(console.error);
+    }).catch(next);
 });
 
-app.use((request, response) => {
-    response.send(404);
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  const err = new Error("Not Found");
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({
+    message: err.message,
+    error: req.app.get("env") === "developmen t" ? err.stack : {}
+  });
 });
 
 module.exports = app;
