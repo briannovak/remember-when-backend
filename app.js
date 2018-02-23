@@ -50,8 +50,7 @@ app.post("/events", (request, response, next) => {
 
 app.post("/people", (request, response, next) => {
     queries.createPerson(request.body).then(person => {
-        // response.status(201).json({person: person});
-				response.send("Your friend was added!");
+        response.status(201).json("Your friend was added!");
     }).catch(next);
 });
 
