@@ -44,7 +44,7 @@ app.get("/events/:id", (request, response, next) => {
 
 app.post("/events", (request, response, next) => {
     queries.createEvent(request.body).then(event => {
-        response.status(201).json({event: event});
+        response.status(201).json("Your event was added!");
     }).catch(next);
 });
 
@@ -62,13 +62,13 @@ app.post("/app-data", (request, response, next) => {
 
 app.delete("/events/:id", (request, response, next) => {
     queries.deleteEvent(request.params.id).then(() => {
-        response.sendStatus(204);
+        response.sendStatus(204).json("Your event was removed!");
     }).catch(next);
 });
 
 app.delete("/people/:id", (request, response, next) => {
     queries.deletePerson(request.params.id).then(() => {
-        response.sendStatus(204);
+        response.sendStatus(204).json("Your event was removed!");
     }).catch(next);
 });
 
@@ -102,7 +102,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: req.app.get("env") === "developmen t" ? err.stack : {}
+    error: req.app.get("env") === "development" ? err.stack : {}
   });
 });
 
