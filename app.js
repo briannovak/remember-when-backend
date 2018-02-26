@@ -68,7 +68,7 @@ app.delete("/events/:id", (request, response, next) => {
 
 app.delete("/people/:id", (request, response, next) => {
     queries.deletePerson(request.params.id).then(() => {
-        response.sendStatus(204).json("Your event was removed!");
+        response.sendStatus(204).json("Your friend was removed!");
     }).catch(next);
 });
 
