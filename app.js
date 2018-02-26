@@ -61,13 +61,13 @@ app.post("/app-data", (request, response, next) => {
 });
 
 app.delete("/events/:id", (request, response, next) => {
-    queries.deleteEvent(request.params.id).then(() => {
+    queries.deleteEvent(request.params.id).then(res => {
         response.status(204).json("Your event was removed!");
     }).catch(next);
 });
 
 app.delete("/people/:id", (request, response, next) => {
-    queries.deletePerson(request.params.id).then(() => {
+    queries.deletePerson(request.params.id).then(res => {
         response.status(204).json("Your friend was removed!");
     }).catch(next);
 });
