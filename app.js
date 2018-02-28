@@ -78,12 +78,14 @@ app.delete("/app-data/:id", (request, response, next) => {
     }).catch(next);
 });
 
+//update an event record
 app.put("/events/:id", (request, response, next) => {
     queries.updateEvent(request.params.id, request.body).then(() => {
 			response.status(201).json("Your event was updated!");
     }).catch(next);
 });
 
+//update a friend record
 app.put("/people/:id", (request, response, next) => {
     queries.updatePerson(request.params.id, request.body).then(() => {
       response.status(201).json("Your friend was updated!");
