@@ -23,6 +23,13 @@ http://remember-when-backend.herokuapp.com/
 Front End Github:
 https://github.com/briannovak/remember-when-frontend
 
+# Installation
+Fork and clone this repo. Then:
+
+``cd remember-when-backend``
+
+``npm install ``
+
 # Author contact
 |<img src="https://avatars1.githubusercontent.com/u/30843350?s=400&v=4" width="100"> | Brian Novak                    |
 | ------------- | ------------- |
